@@ -1,4 +1,3 @@
-import concurrent.futures
 import socket
 import tkinter.messagebox
 import serial
@@ -26,6 +25,7 @@ import numpy as np
 import io
 import ctypes
 from bs4 import BeautifulSoup
+import wmi
 
 
 def scanComPort():
@@ -735,36 +735,6 @@ def c18_2LogToExcel(inputs):
 def pressPrintToExcel():
     global weightReading
 
-    # if len(weightReading) >= 1:  # This section for C18 = 2 -------------------------------------------------
-    #     global weightStack
-    #
-    #     logOutput.insert(INSERT, weightReading + '\n')
-    #     logOutput.see('end')  # Scrolls text to the bottom
-    #     #weightStack.append(weightReading[5:-2])
-    #     if weightReading[0] == 'D':
-    #         dateStack.append(weightReading[5:-2])
-    #     if weightReading[2] == 'm':
-    #         timeStack.append(weightReading[5:-2])
-    #     if weightReading[0] == 'G':
-    #
-    #         grossWeightStack.append(weightReading[5:-2])
-    #         if len(grossWeightStack) != len(netWeightStack):
-    #             tareWeightStack.append(' ')
-    #             netWeightStack.append(' ')
-    #             c18_2LogToExcel(weightStack)
-    #         else:
-    #             c18_2LogToExcel(weightStack)
-    #
-    #     if weightReading[2] == 'r':
-    #         tareWeightStack.append(weightReading[4:-2])
-    #     if weightReading[0] == 'N':
-    #         netWeightStack.append(weightReading[3:-2])
-    #
-    #
-    #
-    #     weightReading = ''
-    #
-    #     # This section for C18 = 2 -------------------------------------------------------------
     if len(weightReading) >= 1:  # This section for C18 = 2 -------------------------------------------------
         global weightStack
 
@@ -816,16 +786,20 @@ my_barcode.save("generated_barcode")
 #     print(printer)
 
 
-wmi = win32com.client.GetObject('winmgmts:')
-controllers = wmi.InstancesOf('Win32_USBControllerDevice')  # This sees all USB Controllers in device manager
+# wmi = win32com.client.GetObject('winmgmts:')
+# controllers = wmi.InstancesOf('Win32_USBControllerDevice')  # This sees all USB Controllers in device manager
 
 # for controller in controllers:
 #     print(controller.Dependent)
 #     print("\n")
 
 #printerName = 'USB\\VID_0FE6&PID_811E\\0E08F5C20506010073170000550801B6'
-printerName = r'\\?\USB#VID_0FE6&PID_811E\\0E08F5C20506010073170000550801B6'
+printerName = r'\\?\usb#vid_0fe6&pid_811e#0e08f5c20506010073170000550801b6#{28d78fad-5a12-11d1-ae5b-0000f803a8c2}'
 #handle = win32print.OpenPrinter(win32print.GetDefaultPrinter())  # This opens default windows printer
+
+c = wmi.WMI()
+
+
 
 with open('C:\\Users\\Cap\\PycharmProjects\\New Data Logging Software\\newDataLoggingSoftware\\test.xml', 'r') as f:
     data = f.read()
