@@ -786,8 +786,8 @@ my_barcode.save("generated_barcode")
 #     print(printer)
 
 
-# wmi = win32com.client.GetObject('winmgmts:')
-# controllers = wmi.InstancesOf('Win32_USBControllerDevice')  # This sees all USB Controllers in device manager
+wmi = win32com.client.GetObject('winmgmts:')
+controllers = wmi.InstancesOf('Win32_USBControllerDevice')  # This sees all USB Controllers in device manager
 
 # for controller in controllers:
 #     print(controller.Dependent)
@@ -796,10 +796,6 @@ my_barcode.save("generated_barcode")
 #printerName = 'USB\\VID_0FE6&PID_811E\\0E08F5C20506010073170000550801B6'
 printerName = r'\\?\usb#vid_0fe6&pid_811e#0e08f5c20506010073170000550801b6#{28d78fad-5a12-11d1-ae5b-0000f803a8c2}'
 #handle = win32print.OpenPrinter(win32print.GetDefaultPrinter())  # This opens default windows printer
-
-c = wmi.WMI()
-
-
 
 with open('C:\\Users\\Cap\\PycharmProjects\\New Data Logging Software\\newDataLoggingSoftware\\test.xml', 'r') as f:
     data = f.read()
@@ -858,10 +854,7 @@ def refreshMenu():
     #         #print(p.device)  # Print available com ports. Faster than my function but not tested with mac or linux yet.
     #         pass
         #print(serial.tools.list_ports.comports())
-        #print(time.time() - beg)
         # port = updateComPortOrWifi(connectionType, comPortDropDown)  # Also have it when com port open to not run
-        # print(port)
-
 
     window.update()
     weightOutput.delete(0.0, END)
