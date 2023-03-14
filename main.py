@@ -26,6 +26,8 @@ import io
 import ctypes
 from bs4 import BeautifulSoup
 import wmi
+import usb.core
+from responsive_voice import ResponsiveVoice
 
 
 def scanComPort():
@@ -797,14 +799,33 @@ controllers = wmi.InstancesOf('Win32_USBControllerDevice')  # This sees all USB 
 printerName = r'\\?\usb#vid_0fe6&pid_811e#0e08f5c20506010073170000550801b6#{28d78fad-5a12-11d1-ae5b-0000f803a8c2}'
 #handle = win32print.OpenPrinter(win32print.GetDefaultPrinter())  # This opens default windows printer
 
-with open('C:\\Users\\Cap\\PycharmProjects\\New Data Logging Software\\newDataLoggingSoftware\\test.xml', 'r') as f:
+with open('C:\\Users\\Cap\\PycharmProjects\\New Data Logging Software\\newDataLoggingSoftware\\test.xml', 'rb') as f:
     data = f.read()
 
-handle = ctypes.windll.kernel32.CreateFileW(printerName, ctypes.c_uint32(0x80000000), 0, None, ctypes.c_uint32(3), 0, None)
+#handle = ctypes.windll.kernel32.CreateFileW(printerName, ctypes.c_uint32(0x80000000), 0, None, ctypes.c_uint32(3), 0, None)
 #xmlData = b'?xml version"1.0" encoding="UTF-8"?><root><element>data</element></root>'
-bufferSize = len(data)
-bytesWritten = ctypes.c_ulong(0)
-success = ctypes.windll.kernel32.WriteFile(handle, data, bufferSize, ctypes.byref(bytesWritten), None)
+#bufferSize = len(data)
+#bytesWritten = ctypes.c_ulong(0)
+#success = ctypes.windll.kernel32.WriteFile(handle, data, bufferSize, ctypes.byref(bytesWritten), None)
+
+printer = usb.core.find(idVendor='0x0fe6', idProduct='0x811e')
+#deviceId = printer.dev.dev
+
+#print(printer)
+#print(deviceId)
+
+# deviceHandle = printer.open()
+# deviceHandle.write(data)
+# deviceHandle.close()
+
+engine = ResponsiveVoice(lang=ResponsiveVoice.SPANISH_ES)
+engine.say("""
+
+Hola mi nombre es Maria
+
+""",
+           gender=ResponsiveVoice.FEMALE,
+           rate=0.45, mp3_file='testFile.mp3')
 
 
 def refreshMenu():
