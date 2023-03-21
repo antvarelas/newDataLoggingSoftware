@@ -255,7 +255,7 @@ def printLog(inputs):  # Used when print button is pressed
     if destination5.get() == "Use Scale Weight":
         #inputs[4].append(weightOutput.get('1.1', 'end-1c'))  # Test with 999999 lbs
         try:
-            inputs[4].append(float(weightReading.decode()[1:-8].lstrip()))  # Below line might be a problem with wireless or maybe just press print on indicator to Print
+            inputs[4].append((weightReading.decode()[1:-8].lstrip()))  # Below line might be a problem with press print on indicator to Print
             #inputs[4].append(str(weightReading.decode().split()[1]))
         except AttributeError as error:
             inputs[4].append(weightReading)
@@ -272,6 +272,7 @@ def printLog(inputs):  # Used when print button is pressed
                        'Net Weight (lb)': inputs[4], 'Box No.': inputs[5]})
 
 
+    df['Net Weight (lb)'] = df['Net Weight (lb)'].astype('float')
     dataToExcel = pd.ExcelWriter(fileEntry.get(), engine='xlsxwriter')  # Need to catch error for invalid file type
     df.to_excel(dataToExcel, sheet_name='Sheet1', index=False)
 
@@ -289,7 +290,7 @@ def printLog(inputs):  # Used when print button is pressed
         column_len = max(df[col].astype(str).str.len().max(), len(col) + 5)
         worksheet.set_column(i, i, column_len)
 
-    worksheet.insert_image('G2', 'generated_barcode.png', {'x_scale': 0.5, 'y_scale': 0.5})  # Insert barcode image into excel
+    #worksheet.insert_image('G2', 'generated_barcode.png', {'x_scale': 0.5, 'y_scale': 0.5})  # Insert barcode image into excel
 
     # This is a test for sending image to L2 printer
     # image = Image.open("generated_barcode.png")
@@ -540,7 +541,7 @@ statusText.place(x=xAxisForInputs-500, y=yAxisForInputs-50-delta)
 inputBarText.place(x=xAxisForInputs+50, y=yAxisForInputs-delta)
 nameBarText.place(x=xAxisForInputs-xAxisDelta, y=yAxisForInputs+50-delta)
 nameBar.place(x=xAxisForInputs, y=yAxisForInputs+50-delta)
-nameBar.insert(END, 'Strand Seafoods LLC')
+nameBar.insert(END, '')
 nameListBox.place(x=xAxisForInputs, y=yAxisForInputs+50-82)
 updateListBox(previousCustomers)  #Updates List Box
 batchNoText.place(x=xAxisForInputs-xAxisDelta, y=yAxisForInputs+100)
@@ -779,28 +780,28 @@ initializePressPrintToExcel()  # Initialize Thread for reading
 number = '01993999901234503101000262131503102141457354'  # This is sample GS1-Code128 barcode
 #my_code = EAN13(number, writer=ImageWriter())
 
-barcode_format = barcode.get_barcode_class('gs1_128')
-my_barcode = barcode_format(number, writer=ImageWriter())
-my_barcode.save("generated_barcode")
+# barcode_format = barcode.get_barcode_class('gs1_128')
+# my_barcode = barcode_format(number, writer=ImageWriter())
+# my_barcode.save("generated_barcode")
 
 # printers = win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL)  # List out all printers
 # for printer in printers:
 #     print(printer)
 
 
-wmi = win32com.client.GetObject('winmgmts:')
-controllers = wmi.InstancesOf('Win32_USBControllerDevice')  # This sees all USB Controllers in device manager
+# wmi = win32com.client.GetObject('winmgmts:')
+# controllers = wmi.InstancesOf('Win32_USBControllerDevice')  # This sees all USB Controllers in device manager
 
 # for controller in controllers:
 #     print(controller.Dependent)
 #     print("\n")
 
 #printerName = 'USB\\VID_0FE6&PID_811E\\0E08F5C20506010073170000550801B6'
-printerName = r'\\?\usb#vid_0fe6&pid_811e#0e08f5c20506010073170000550801b6#{28d78fad-5a12-11d1-ae5b-0000f803a8c2}'
+#printerName = r'\\?\usb#vid_0fe6&pid_811e#0e08f5c20506010073170000550801b6#{28d78fad-5a12-11d1-ae5b-0000f803a8c2}'
 #handle = win32print.OpenPrinter(win32print.GetDefaultPrinter())  # This opens default windows printer
 
-with open('C:\\Users\\Cap\\PycharmProjects\\New Data Logging Software\\newDataLoggingSoftware\\test.xml', 'rb') as f:
-    data = f.read()
+# with open('C:\\Users\\Cap\\PycharmProjects\\New Data Logging Software\\newDataLoggingSoftware\\test.xml', 'rb') as f:
+#     data = f.read()
 
 #handle = ctypes.windll.kernel32.CreateFileW(printerName, ctypes.c_uint32(0x80000000), 0, None, ctypes.c_uint32(3), 0, None)
 #xmlData = b'?xml version"1.0" encoding="UTF-8"?><root><element>data</element></root>'
@@ -808,7 +809,7 @@ with open('C:\\Users\\Cap\\PycharmProjects\\New Data Logging Software\\newDataLo
 #bytesWritten = ctypes.c_ulong(0)
 #success = ctypes.windll.kernel32.WriteFile(handle, data, bufferSize, ctypes.byref(bytesWritten), None)
 
-printer = usb.core.find(idVendor='0x0fe6', idProduct='0x811e')
+#printer = usb.core.find(idVendor='0x0fe6', idProduct='0x811e')
 #deviceId = printer.dev.dev
 
 #print(printer)
@@ -818,14 +819,14 @@ printer = usb.core.find(idVendor='0x0fe6', idProduct='0x811e')
 # deviceHandle.write(data)
 # deviceHandle.close()
 
-engine = ResponsiveVoice(lang=ResponsiveVoice.SPANISH_ES)
-engine.say("""
-
-Hola mi nombre es Maria
-
-""",
-           gender=ResponsiveVoice.FEMALE,
-           rate=0.45, mp3_file='testFile.mp3')
+# engine = ResponsiveVoice(lang=ResponsiveVoice.SPANISH_ES)
+# engine.say("""
+#
+# Hola mi nombre es Maria
+#
+# """,
+#            gender=ResponsiveVoice.FEMALE,
+#            rate=0.45, mp3_file='testFile.mp3')
 
 
 def refreshMenu():
