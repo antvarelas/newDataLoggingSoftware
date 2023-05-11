@@ -27,7 +27,7 @@ import ctypes
 from bs4 import BeautifulSoup
 import wmi
 import usb.core
-from responsive_voice import ResponsiveVoice
+#from responsive_voice import ResponsiveVoice
 
 
 def scanComPort():
@@ -425,7 +425,7 @@ def getPreviousCustomersList():
         pass
 
 
-def saveToPreviousCustomersList(name='Strand Seafoods LLC'):
+def saveToPreviousCustomersList(name='Strand Foods LLC'):
     previousCustomerTextFileLocation = 'Previous Customers.txt'
 
     try:  # Only append customer if it is a new customer
@@ -541,7 +541,7 @@ statusText.place(x=xAxisForInputs-500, y=yAxisForInputs-50-delta)
 inputBarText.place(x=xAxisForInputs+50, y=yAxisForInputs-delta)
 nameBarText.place(x=xAxisForInputs-xAxisDelta, y=yAxisForInputs+50-delta)
 nameBar.place(x=xAxisForInputs, y=yAxisForInputs+50-delta)
-nameBar.insert(END, '')
+nameBar.insert(END, 'Strand Foods LLC')
 nameListBox.place(x=xAxisForInputs, y=yAxisForInputs+50-82)
 updateListBox(previousCustomers)  #Updates List Box
 batchNoText.place(x=xAxisForInputs-xAxisDelta, y=yAxisForInputs+100)
@@ -602,10 +602,10 @@ selectFileButton.place(x=5, y=heightForButton)
 # Section for entering file destination
 fileEntry = Entry(window, width=50, bg="white", font=myFont, background='white')
 fileEntry.place(x=138, y=heightForButton+7)
-excelFile = "C:" + os.path.join(os.environ["HOMEPATH"], "Desktop") + '\Strand Seafoods LLC.xlsx'  # Target file destination
+excelFile = "C:" + os.path.join(os.environ["HOMEPATH"], "Desktop") + '\Strand Foods LLC.xlsx'  # Target file destination
 fileEntry.insert(0, excelFile)
 
-# Help Button should have link to youTube video in the Menu
+# Help Button should have link to youtube video in the Menu
 helpButton = Button(window, text="HELP", width=5, command=helpButton, font=myFont, background='white')
 helpButton.place(x=696, y=heightForButton)
 
